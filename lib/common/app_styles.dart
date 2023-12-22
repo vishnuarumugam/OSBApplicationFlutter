@@ -62,9 +62,23 @@ class AppStyles{
       fontStyle: FontStyle.normal,
   );
 
+  static const TextStyle inputTvStyle = TextStyle(
+      fontSize: 14,
+      color: AppColors.colorBlack,
+      fontWeight: FontWeight.w400,
+      fontStyle: FontStyle.normal,
+  );
+
   static const TextStyle buttonTvStyle = TextStyle(
       fontSize: 14,
       color: AppColors.colorWhite,
+      fontWeight: FontWeight.w500,
+      fontStyle: FontStyle.normal,
+  );
+
+  static const TextStyle buttonTvStyleColorDark = TextStyle(
+      fontSize: 14,
+      color: AppColors.colorDark,
       fontWeight: FontWeight.w500,
       fontStyle: FontStyle.normal,
   );

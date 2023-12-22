@@ -1,11 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:osb/common/ConverterObject.dart';
+import 'package:osb/common/converter_object.dart';
 import 'package:osb/common/app_bar.dart';
 import 'package:osb/common/app_colors.dart';
 import 'package:osb/common/app_styles.dart';
 import 'package:osb/common/constant.dart';
+import 'package:osb/employee/employee_details_bottom_sheet.dart';
 import 'package:osb/model/employee_model.dart';
 
 class EmployeePage extends StatelessWidget{
@@ -35,7 +37,7 @@ class EmployeePage extends StatelessWidget{
       body: ListView(
           children: [
             topDesign(),
-            bottomDesign()
+            bottomDesign(),
           ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -48,6 +50,7 @@ class EmployeePage extends StatelessWidget{
       ),
     );
   }
+
 
   Container bottomDesign() => Container(
     margin: const EdgeInsets.symmetric(vertical: 15),
@@ -106,7 +109,7 @@ class EmployeePage extends StatelessWidget{
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(3.0),
-                            child: Text(employees[index].employeeName ,
+                            child: Text(employees[index].employeeName ?? Constants.dashed ,
                             style: AppStyles.bodyMediumBlack14,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
@@ -150,7 +153,7 @@ class EmployeePage extends StatelessWidget{
                           ),
                           Padding(
                             padding: const EdgeInsets.all(2.0),
-                            child: Text(employees[index].employeeCategory, 
+                            child: Text(employees[index].employeeCategory ?? Constants.dashed , 
                             style: AppStyles.bodyRegularBlack12,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
@@ -323,127 +326,13 @@ class EmployeePage extends StatelessWidget{
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return Container(
-          height: 500,
-          padding: EdgeInsets.all(15),
-          decoration: const BoxDecoration(
-            color: AppColors.colorWhite,
-            borderRadius: BorderRadius.all(Radius.circular(20))
-          ),
-          child: SizedBox.expand(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('${Constants.category}${Constants.asterick}',
-                          style: AppStyles.inputHeaderBlack12),
-                          const SizedBox(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText: Constants.enterCategory,
-                                hintStyle: AppStyles.inputHintTvStyle,
-                                fillColor: AppColors.colorWhite,
-                                filled: true,
-                                contentPadding: EdgeInsets.all(10),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                  borderSide: BorderSide(color: AppColors.colorGridLine, width: 1.5),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                  borderSide: BorderSide(color: AppColors.colorGridLine, width: 1.5),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('${Constants.category}${Constants.asterick}',
-                          style: AppStyles.inputHeaderBlack12),
-                          const SizedBox(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText: Constants.enterCategory,
-                                hintStyle: AppStyles.inputHintTvStyle,
-                                fillColor: AppColors.colorWhite,
-                                filled: true,
-                                contentPadding: EdgeInsets.all(10),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                  borderSide: BorderSide(color: AppColors.colorGridLine, width: 1.5),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                  borderSide: BorderSide(color: AppColors.colorGridLine, width: 1.5),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('${Constants.category}${Constants.asterick}',
-                          style: AppStyles.inputHeaderBlack12),
-                          const SizedBox(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText: Constants.enterCategory,
-                                hintStyle: AppStyles.inputHintTvStyle,
-                                fillColor: AppColors.colorWhite,
-                                filled: true,
-                                contentPadding: EdgeInsets.all(10),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                  borderSide: BorderSide(color: AppColors.colorGridLine, width: 1.5),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                  borderSide: BorderSide(color: AppColors.colorGridLine, width: 1.5),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('${Constants.category}${Constants.asterick}',
-                          style: AppStyles.inputHeaderBlack12),
-                          const SizedBox(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText: Constants.enterCategory,
-                                hintStyle: AppStyles.inputHintTvStyle,
-                                fillColor: AppColors.colorWhite,
-                                filled: true,
-                                contentPadding: EdgeInsets.all(10),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                  borderSide: BorderSide(color: AppColors.colorGridLine, width: 1.5),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                  borderSide: BorderSide(color: AppColors.colorGridLine, width: 1.5),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                  ],
-                ),
-            )
+        return EmployeeDetailBottomSheet(
+          (){
+            print("add button clicked");
+          }
         );
       },
     );
   }
+
 }

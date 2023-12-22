@@ -36,5 +36,18 @@ class Constants{
   static const String male = 'Male';
   static const String female = 'Female';
 
+  static const String cancel = 'Cancel';
+  static const String add = 'Add';
+
+  static const List<String> genderArray = [Constants.male, Constants.female];
+
+  static const List<String> categoryArray = [
+    'Waiter',
+    'Cleaner',
+    'Main master',
+    'Dosa master',
+    'Dish wash cleaner',
+    'Hall staff',
+  ];
 
 }

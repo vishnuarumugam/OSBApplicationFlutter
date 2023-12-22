@@ -1,11 +1,15 @@
 
 class Employee {
-  String employeeCategory;
-  String employeeName;
-  int employeeSalary;
-  int  dateOfJoining;
-  int gender;
+  String? employeeCategory;
+  String? employeeName;
+  int? employeeSalary;
+  int?  dateOfJoining;
+  int? gender;
 
+  Employee.withDefaults(
+    
+  );
+  
   Employee({
     required this.employeeCategory,
     required this.employeeName,

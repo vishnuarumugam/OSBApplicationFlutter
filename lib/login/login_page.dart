@@ -127,7 +127,7 @@ class LoginPage extends StatelessWidget{
                 child: Container(
                     alignment: Alignment.center,
                     width: double.infinity,
-                    height: 45,
+                    constraints: const BoxConstraints(minHeight: 45),
                     decoration: const BoxDecoration(
                       color: AppColors.colorBlack,
                       borderRadius: BorderRadius.all(Radius.circular(10))
@@ -135,7 +135,8 @@ class LoginPage extends StatelessWidget{
                     child: const Text(Constants.login,
                     style: AppStyles.buttonTvStyle,) 
                   )
-              ),             
+              ),  
+              const SizedBox(height: 25),           
             ]
           ),
       );
