@@ -6,6 +6,7 @@ import 'package:osb/common/constant.dart';
 import 'package:osb/common/utils.dart';
 import 'package:osb/firebase/firebase_firestore_service.dart';
 import 'package:osb/model/employee_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class EmployeeDetailBottomSheet extends StatefulWidget {
@@ -381,9 +382,13 @@ class _EmployeeDetailBottomSheetState extends State<EmployeeDetailBottomSheet> {
     // final firebaseService = FirebaseFirestoreService('employeeDetails');
 
     // print('firebaseService ${firebaseService}');
+    
+
 
     if (validateData()){
-      // firebaseService.addDocument(employeeDetails);
+      // await firebaseService.addDocument(employeeDetails);
+      
+      
       print('valid data ${employeeDetails.dateOfJoining}');
     }
         

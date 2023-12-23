@@ -10,13 +10,18 @@ class FirebaseFirestoreService{
 
   Future<void> addDocument(Employee employee) async {
     print({'addDocument'});
+    try {
     await _collection.add({
-      'employeeCategory' : employee.employeeCategory,
-      'employeeName' : employee.employeeName,
-      'employeeSalary' : employee.employeeSalary,
-      'dateOfJoining' : employee.dateOfJoining,
-      'gender' : employee.gender
+      'employeeCategory': employee.employeeCategory,
+      'employeeName': employee.employeeName,
+      'employeeSalary': employee.employeeSalary,
+      'dateOfJoining': employee.dateOfJoining,
+      'gender': employee.gender
     });
+  } catch (e) {
+    print('Error adding document: $e');
+    // Handle the error, e.g., show an error message to the user
+  }
   }
 
   Future<void> updateDocument(String documentId, Employee employee) async {

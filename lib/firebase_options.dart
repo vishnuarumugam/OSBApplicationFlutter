@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAZsazI4YWt_K4ERdLx3foMnTsDYErs4DQ',
-    appId: '1:672578168061:android:90ddf5e1155c4025130a94',
-    messagingSenderId: '672578168061',
-    projectId: 'hotelomsarvanabhavan',
-    storageBucket: 'hotelomsarvanabhavan.appspot.com',
+    apiKey: 'AIzaSyDYUlkVSW0gleUTXRhFRIJD4Vn5R2rC1lE',
+    appId: '1:752739315168:android:37687939bd37d018d20f85',
+    messagingSenderId: '752739315168',
+    projectId: 'hotelomsaravanabhavan-64851',
+    storageBucket: 'hotelomsaravanabhavan-64851.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDj3MjzjABUw6AkY_8MQ6avWcfoA4Lkv9I',
-    appId: '1:672578168061:ios:477b2fa2f57f7af3130a94',
-    messagingSenderId: '672578168061',
-    projectId: 'hotelomsarvanabhavan',
-    storageBucket: 'hotelomsarvanabhavan.appspot.com',
+    apiKey: 'AIzaSyBaJtu7jz0C_e0Yy5NHK-g0w-RaYVib1s8',
+    appId: '1:752739315168:ios:4d0e6a0c3ae01c85d20f85',
+    messagingSenderId: '752739315168',
+    projectId: 'hotelomsaravanabhavan-64851',
+    storageBucket: 'hotelomsaravanabhavan-64851.appspot.com',
     iosBundleId: 'com.example.osb',
   );
 }
