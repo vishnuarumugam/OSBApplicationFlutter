@@ -378,12 +378,12 @@ class _EmployeeDetailBottomSheetState extends State<EmployeeDetailBottomSheet> {
                   );
                 
   void addEmployee(BuildContext pageContext) async {
-    final firebaseService = FirebaseFirestoreService('employeeDetails');
+    // final firebaseService = FirebaseFirestoreService('employeeDetails');
 
-    print('firebaseService ${firebaseService}');
+    // print('firebaseService ${firebaseService}');
 
     if (validateData()){
-      firebaseService.addDocument(employeeDetails);
+      // firebaseService.addDocument(employeeDetails);
       print('valid data ${employeeDetails.dateOfJoining}');
     }
         
