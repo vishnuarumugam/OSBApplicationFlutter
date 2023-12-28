@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:osb/common/app_colors.dart';
+import 'package:osb/common/styles/app_colors.dart';
 import 'package:osb/login/login_page.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'pages/employee/employee_page.dart';
+import 'firebase/firebase_options.dart';
 
 Future<void> main() async{
 
@@ -12,7 +13,7 @@ Future<void> main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-    
+  
 
   runApp(const MyApp());
 }
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
          fontFamily: 'Poppins'
       ),
-      home: const LoginPage(),
+      home: EmployeePage(),
     );
   }
 }

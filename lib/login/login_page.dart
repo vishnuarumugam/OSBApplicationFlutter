@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:osb/common/app_colors.dart';
-import 'package:osb/common/app_styles.dart';
-import 'package:osb/common/constant.dart';
-import 'package:osb/dashboard/dashboard_page.dart';
+import 'package:osb/common/styles/app_colors.dart';
+import 'package:osb/common/styles/app_styles.dart';
+import 'package:osb/common/utils/constant.dart';
+import 'package:osb/pages/dashboard/dashboard_page.dart';
 
 
 class LoginPage extends StatelessWidget{
