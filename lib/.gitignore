@@ -1,0 +1,34 @@
+# Dart
+.dart_tool/
+.packages
+.pub/
+/build/
+
+# Flutter
+*.iml
+*.metadata
+/.idea/
+.DS_Store
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.dart_tool/
+
+# Android
+/build/
+/local.properties
+
+# iOS
+/build/
+/ios/Pods/
+/ios/.symlinks/
+/ios/Flutter/Flutter.framework/
+/ios/Flutter/Flutter.podspec
+/ios/.generated/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
