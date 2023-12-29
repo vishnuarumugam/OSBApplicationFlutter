@@ -24,24 +24,41 @@ class EmployeeDetailBottomSheet extends StatefulWidget {
 
 
   @override
-  _EmployeeDetailBottomSheetState createState() => _EmployeeDetailBottomSheetState(onEmployeeListChanged);
+  _EmployeeDetailBottomSheetState createState() => _EmployeeDetailBottomSheetState(onEmployeeListChanged, employeeData, sheetOpenedFor);
 }
 
 class _EmployeeDetailBottomSheetState extends State<EmployeeDetailBottomSheet> {
   late TextEditingController employeeName = TextEditingController();
   late TextEditingController employeeSalary = TextEditingController();
   late int dateOfJoining;
-  DateTime _selectedDate = DateTime.now();
-  bool isCategoryListOpen = false;
+  DateTime selectedDate = DateTime.now();
+  bool isRoleListOpen = false;
 
   late Employee employeeDetails = Employee.withDefaults();
   final VoidCallback onSuccessfulChange;
-  _EmployeeDetailBottomSheetState(this.onSuccessfulChange);
+  final Employee? employeeData;
+  final String sheetOpenedFor;
+
+  _EmployeeDetailBottomSheetState(this.onSuccessfulChange, this.employeeData, this.sheetOpenedFor);
 
 
   List<String> genderList = Constants.genderArray;
-  List<String> categoryList = Constants.categoryArray;
+  List<String> roleList = Constants.roleArray;
   int selectedGender = 0;
+
+  @override
+  initState(){
+    super.initState();
+    if (sheetOpenedFor == SheetNames.edit){
+      if (employeeData != null){
+        employeeDetails = employeeData ?? Employee.withDefaults();
+        employeeName.text = employeeData!.employeeName ?? Constants.dashed;
+        employeeSalary.text = employeeData!.employeeSalary.toString();
+        selectedGender = employeeData!.gender!;
+        selectedDate = DateTime.fromMillisecondsSinceEpoch(employeeData!.dateOfJoining!);
+      }
+    }
+  }
 
   @override
   void dispose() {
@@ -63,10 +80,10 @@ class _EmployeeDetailBottomSheetState extends State<EmployeeDetailBottomSheet> {
           child: Stack(
                 children: [
                   ListView(
-                    physics: isCategoryListOpen ? const NeverScrollableScrollPhysics() : const AlwaysScrollableScrollPhysics(),
+                    physics: isRoleListOpen ? const NeverScrollableScrollPhysics() : const AlwaysScrollableScrollPhysics(),
                     children: [
                         fieldSpacer(15),
-                        categoryComponent(),
+                        roleComponent(),
                         fieldSpacer(15),
                         nameComponent(),
                         fieldSpacer(15),
@@ -80,7 +97,7 @@ class _EmployeeDetailBottomSheetState extends State<EmployeeDetailBottomSheet> {
                         fieldSpacer(25),
                     ],
                   ),
-                  if (isCategoryListOpen)
+                  if (isRoleListOpen)
                     categoryDropDown()               
                   ,
                 ]
@@ -88,25 +105,25 @@ class _EmployeeDetailBottomSheetState extends State<EmployeeDetailBottomSheet> {
         );
   }
 
-  Column categoryComponent() {
+  Column roleComponent() {
     return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Padding(
                       padding: EdgeInsets.only(left:5, bottom: 5),
                       child: Text(
-                        '${Constants.category}${Constants.asterick}',
+                        '${Constants.role}${Constants.asterick}',
                         style: AppStyles.inputHeaderBlack12),
                     ),
                     SizedBox(
                       child: GestureDetector(
                         onTap: (){
                           setState(() {
-                            isCategoryListOpen = true;
+                            isRoleListOpen = true;
                           });
                         },
                         child: Container(
-                        constraints: BoxConstraints(maxHeight: 52),
+                        constraints: const BoxConstraints(maxHeight: 52),
                         width: double.infinity,
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
@@ -118,8 +135,8 @@ class _EmployeeDetailBottomSheetState extends State<EmployeeDetailBottomSheet> {
                           ),
                         ),
                         child: Text(
-                          employeeDetails.employeeCategory == null ? Constants.enterCategory : employeeDetails.employeeCategory ?? Constants.dashed,
-                          style: employeeDetails.employeeCategory == null ? AppStyles.inputHintTvStyle : AppStyles.inputHeaderBlack12,
+                          employeeDetails.employeeRole == null ? Constants.enterRole : employeeDetails.employeeRole ?? Constants.dashed,
+                          style: employeeDetails.employeeRole == null ? AppStyles.inputHintTvStyle : AppStyles.inputTvStyle,
                           ),
                         ),
                       ),
@@ -225,7 +242,7 @@ class _EmployeeDetailBottomSheetState extends State<EmployeeDetailBottomSheet> {
                           ),
                         ),
                         child: Text(
-                          employeeDetails.dateOfJoining == null ? Constants.enterDateOfJoin : ConverterObject.milliToDateConverter(_selectedDate.millisecondsSinceEpoch),
+                          employeeDetails.dateOfJoining == null ? Constants.enterDateOfJoin : ConverterObject.milliToDateConverter(selectedDate.millisecondsSinceEpoch),
                           style: employeeDetails.dateOfJoining == null ? AppStyles.inputHintTvStyle : AppStyles.inputTvStyle,
                           ),
                         ),
@@ -285,7 +302,7 @@ class _EmployeeDetailBottomSheetState extends State<EmployeeDetailBottomSheet> {
   ListView categoryListComponent() => ListView.separated(
     scrollDirection: Axis.vertical,
     shrinkWrap: true,
-    itemCount: categoryList.length,
+    itemCount: roleList.length,
     separatorBuilder: (context, index) => const SizedBox(height: 1,
     child: Divider(
       color: AppColors.colorGridLine,
@@ -296,8 +313,8 @@ class _EmployeeDetailBottomSheetState extends State<EmployeeDetailBottomSheet> {
         return GestureDetector(
           onTap: (){
               setState(() {
-                employeeDetails.employeeCategory = categoryList[index];
-                isCategoryListOpen = false;
+                employeeDetails.employeeRole = roleList[index];
+                isRoleListOpen = false;
               });
           },
           child: Container(
@@ -306,7 +323,7 @@ class _EmployeeDetailBottomSheetState extends State<EmployeeDetailBottomSheet> {
             color: AppColors.colorWhite,
             child: Padding(
               padding: const EdgeInsets.all(3),
-              child: Text(categoryList[index],
+              child: Text(roleList[index],
               style: AppStyles.bodyMediumBlack14,),
             )
           ),
@@ -355,10 +372,34 @@ class _EmployeeDetailBottomSheetState extends State<EmployeeDetailBottomSheet> {
             flex: 1, 
             child: GestureDetector(
               onTap: (){
+                addEmployee(pageContext);
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(right: 10),
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                                constraints: const BoxConstraints(
+                                  minHeight: 45),
+                                decoration: const BoxDecoration(
+                                  color: AppColors.colorBlack,
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                                ),
+                                child: const Text(
+                                  Constants.submit,
+                                  style: AppStyles.buttonTvStyle,
+                                ),
+                              )
+              ) 
+          ),
+          Expanded(
+            flex: 1, 
+            child: GestureDetector(
+              onTap: (){
                 Navigator.pop(context);
               },
               child: Container(
-                margin: const EdgeInsets.only(right: 10),
+                margin: const EdgeInsets.only(left: 10),
                 alignment: Alignment.center,
                 padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                 constraints: const BoxConstraints(
@@ -378,69 +419,53 @@ class _EmployeeDetailBottomSheetState extends State<EmployeeDetailBottomSheet> {
                 ),
               )
             ) 
-          ),
-          Expanded(
-            flex: 1, 
-            child: GestureDetector(
-              onTap: (){
-                addEmployee(pageContext);
-                              },
-                              child: Container(
-                                margin: const EdgeInsets.only(left: 10),
-                                alignment: Alignment.center,
-                                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                                constraints: const BoxConstraints(
-                                  minHeight: 45),
-                                decoration: const BoxDecoration(
-                                  color: AppColors.colorBlack,
-                                  shape: BoxShape.rectangle,
-                                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                                ),
-                                child: const Text(
-                                  Constants.add,
-                                  style: AppStyles.buttonTvStyle,
-                                ),
-                              )
-              ) 
-            )
-                          
+          ),                
           ],
         ),
     );
                 
   void addEmployee(BuildContext pageContext) async {
-    if (validateData()){      
-      final BaseResponse addResponse = await EmployeeDetailRepo().createEmployee(employeeDetails);
-      if (addResponse.statusCode == 200){
-        AppSnackBar().showSnackbar(pageContext, addResponse.message ?? Constants.dashed, false);
-        widget.onEmployeeListChanged();
-        Navigator.pop(pageContext);
+    if (validateData()){  
+      if (sheetOpenedFor == SheetNames.add){
+        final BaseResponse addResponse = await EmployeeDetailRepo().createEmployee(employeeDetails);
+        if (addResponse.statusCode == 200){
+          AppSnackBar().showSnackbar(pageContext, addResponse.message ?? Constants.dashed, false);
+          widget.onEmployeeListChanged();
+          Navigator.pop(pageContext);
+        }else{
+          Navigator.pop(pageContext);
+          AppSnackBar().showSnackbar(pageContext, addResponse.message ?? Constants.dashed, false);    
+        }
       }else{
-        Navigator.pop(pageContext);
-        AppSnackBar().showSnackbar(pageContext, addResponse.message ?? Constants.dashed, false);    
-      }
+        final BaseResponse addResponse = await EmployeeDetailRepo().updateEmployee(employeeDetails);
+        if (addResponse.statusCode == 200){
+          AppSnackBar().showSnackbar(pageContext, addResponse.message ?? Constants.dashed, false);
+          widget.onEmployeeListChanged();
+          Navigator.pop(pageContext);
+        }else{
+          Navigator.pop(pageContext);
+          AppSnackBar().showSnackbar(pageContext, addResponse.message ?? Constants.dashed, false);    
+        }
+      }   
+      
 
     }        
   }
     
   bool validateData() {
     
-    if (employeeDetails.employeeCategory == null){
-      print('employeeCategory error'); 
+    if (employeeDetails.employeeRole == null){
       return false;   
     }
     if (employeeName.text.isEmpty){
-      print('employeeName error'); 
       return false;   
     }
 
     if (employeeSalary.text.isEmpty){
-      print('employeeSalary error'); 
       return false;  
     }
 
     if (employeeDetails.dateOfJoining == null){
-      print('dateOfJoining error'); 
       return false; 
     }
 
@@ -454,7 +479,7 @@ class _EmployeeDetailBottomSheetState extends State<EmployeeDetailBottomSheet> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: selectedDate,
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
       builder: (context, child) => 
@@ -466,10 +491,10 @@ class _EmployeeDetailBottomSheetState extends State<EmployeeDetailBottomSheet> {
         child: child!),
     );
 
-    if (picked != null && picked != _selectedDate) {
+    if (picked != null && picked != selectedDate) {
       setState(() {
         print('date ${picked}');
-        _selectedDate = picked;
+        selectedDate = picked;
         employeeDetails.dateOfJoining = picked.millisecondsSinceEpoch;
       });
     }

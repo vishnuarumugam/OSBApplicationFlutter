@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Employee {
   String? documentId;
-  String? employeeCategory;
+  String? employeeRole;
   String? employeeName;
   int? employeeSalary;
   int?  dateOfJoining;
@@ -15,63 +15,16 @@ class Employee {
   
   Employee({
     this.documentId,
-    required this.employeeCategory,
+    required this.employeeRole,
     required this.employeeName,
     required this.employeeSalary,
     required this.dateOfJoining,
     required this.gender
   });
 
-  static List<Employee> getEmployees(){
-      List<Employee> employees = [];
-
-      employees.add(
-        Employee(
-          employeeName: 'Mani',
-          employeeCategory: 'Waiter',
-          employeeSalary: 250,
-          dateOfJoining: 1448889376000,
-          gender: 0
-        )
-      );
-
-      employees.add(
-        Employee(
-          employeeName: 'Mani(CBR)',
-          employeeCategory: 'Waiter',
-          employeeSalary: 400,
-          dateOfJoining: 1448889376000,
-          gender: 0
-        )
-      );
-
-      employees.add(
-        Employee(
-          employeeName: 'Sundar',
-          employeeCategory: 'Cleaner',
-          employeeSalary: 250,
-          dateOfJoining: 1448889376000,
-          gender: 0
-        )
-      );
-
-    employees.add(
-        Employee(
-          employeeName: 'Shanthi',
-          employeeCategory: 'Waiter',
-          employeeSalary: 400,
-          dateOfJoining: 1448889376000,
-          gender: 1
-        )
-      );
-    
-
-      return employees;
-    }
-
   toJson(){
     return {
-      "category": employeeCategory,
+      "role": employeeRole,
       "name": employeeName,
       "salary": employeeSalary,
       "date_of_joining": dateOfJoining,
@@ -82,7 +35,7 @@ class Employee {
   factory Employee.fromJson(Map<String, dynamic> json){
     return switch (json) {
         { 'id': String id,
-          'category': String category,
+          'role': String role,
           'name': String name,
           'salary': int salary,
           'date_of_joining': int date_of_joining,
@@ -90,7 +43,7 @@ class Employee {
         } =>
           Employee(
             documentId: id,
-            employeeCategory: category,
+            employeeRole: role,
             employeeName: name,
             employeeSalary: salary,
             dateOfJoining: date_of_joining,
@@ -104,7 +57,7 @@ class Employee {
     final data = document.data();
     return switch (data) {
         {
-          'category': String category,
+          'role': String role,
           'name': String name,
           'salary': int salary,
           'date_of_joining': int date_of_joining,
@@ -112,7 +65,7 @@ class Employee {
         } =>
           Employee(
             documentId: document.id,
-            employeeCategory: category,
+            employeeRole: role,
             employeeName: name,
             employeeSalary: salary,
             dateOfJoining: date_of_joining,

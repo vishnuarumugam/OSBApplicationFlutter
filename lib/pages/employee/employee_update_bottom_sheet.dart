@@ -144,8 +144,6 @@ class _EmployeeUpdateBottomSheetState extends State<EmployeeUpdateBottomSheet> {
       Navigator.pop(pageContext);
       AppSnackBar().showSnackbar(pageContext, deleteResponse.message ?? Constants.dashed, false);    
     }
-    print('deleteEmployee');
-
   }
 
 }

@@ -18,15 +18,6 @@ class EmployeeDetailRepo{
       return BaseResponse(statusCode: 500, message: 'Error found while adding employee record.');
     }
   }
-  // createEmployee(Employee employee){
-  //   _db.add(employee.toJson()).whenComplete(
-  //         () => BaseResponse(statusCode: 200, message: 'Employeee added successfully')
-  //   )
-  //   .catchError((error, stackTrace){
-  //       // ignore: invalid_return_type_for_catch_error
-  //       return BaseResponse(statusCode: 500, message: 'Error found while adding employee record.');
-  //   });
-  // }
 
   Future<List<Employee>> getEmployees() async {
     try {
@@ -59,6 +50,23 @@ class EmployeeDetailRepo{
       return BaseResponse(statusCode: 200, message: 'Employee deleted successfully.');
     } catch (e) {
       return BaseResponse(statusCode: 500, message: 'Error while deleting employee record.');
+    }
+  }
+
+  Future<BaseResponse> updateEmployee(Employee? employee) async {
+    try {
+      if (employee != null){
+        DocumentSnapshot snapshot = await _db.doc(employee.documentId).get();
+        if (!snapshot.exists){
+          throw Exception('Document does not exist');
+        }
+        await _db.doc(employee.documentId).update(employee.toJson());
+        return BaseResponse(statusCode: 200, message: 'Employee update successfully.');
+      }else{
+        throw Exception('Employee cannot be null');
+      }
+    } catch (e) {
+      return BaseResponse(statusCode: 500, message: 'Error while updating employee record.');
     }
   }
 

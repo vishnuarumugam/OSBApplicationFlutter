@@ -24,8 +24,8 @@ class Constants{
   static const String dashed = '--';
   static const String asterick = ' *';
 
-  static const String category = 'Category';
-  static const String enterCategory = 'Select the employee category';
+  static const String role = 'Role';
+  static const String enterRole = 'Select the employee role';
   static const String employeeName = 'Employee name';
   static const String enterEmployeeName = 'Enter the employee name';
   static const String salaryDay = 'Salary / Day';
@@ -38,7 +38,7 @@ class Constants{
   static const int valueZero = 0;
 
   static const String cancel = 'Cancel';
-  static const String add = 'Add';
+  static const String submit = 'Submit';
   static const String update = 'Update';
   static const String delete = 'Delete';
 
@@ -46,7 +46,7 @@ class Constants{
 
   static const List<String> genderArray = [male, female];
 
-  static const List<String> categoryArray = [
+  static const List<String> roleArray = [
     'Waiter',
     'Cleaner',
     'Main master',

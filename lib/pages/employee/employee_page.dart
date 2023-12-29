@@ -11,6 +11,7 @@ import 'package:osb/pages/employee/employee_details_bottom_sheet.dart';
 import 'package:osb/model/employee/employee_model.dart';
 import '../../repo/employee_detail_repo.dart';
 import 'employee_update_bottom_sheet.dart';
+import 'dart:developer' as developer;
 
 class EmployeePage extends StatefulWidget {
   
@@ -204,7 +205,7 @@ class _EmployeePageState extends State<EmployeePage> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(2.0),
-                                child: Text(employeeData[index].employeeCategory ?? Constants.dashed , 
+                                child: Text(employeeData[index].employeeRole ?? Constants.dashed , 
                                 style: AppStyles.bodyRegularBlack12,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
@@ -420,7 +421,7 @@ class _EmployeePageState extends State<EmployeePage> {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return EmployeeDetailBottomSheet(onEmployeeListChanged: _handleEmployeeListModified, sheetOpenedFor: SheetNames.edit, employeeData: null);
+        return EmployeeDetailBottomSheet(onEmployeeListChanged: _handleEmployeeListModified, sheetOpenedFor: SheetNames.edit, employeeData: employee);
       },
     );
   }

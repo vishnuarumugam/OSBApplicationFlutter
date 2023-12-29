@@ -4,7 +4,7 @@
             "outputFile": "com.example.osb.app-mergeDebugResources-12:/values-pt/values-pt.xml",
             "map": [
                 {
-                    "source": "/Users/vishnu/.gradle/caches/transforms-3/8688b0a81ef6f9319bcf2c6ee784f6b6/transformed/core-1.6.0/res/values-pt/values-pt.xml",
+                    "source": "/Users/vishnu/.gradle/caches/transforms-3/002b43310e03cd8de30e684920570e49/transformed/core-1.6.0/res/values-pt/values-pt.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
