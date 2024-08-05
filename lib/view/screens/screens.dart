@@ -1,0 +1,14 @@
+export './attendance/attendance_page.dart';
+export './dashboard/dashboard_page.dart';
+export 'employee/bottom_sheet/employee_details_bottom_sheet.dart';
+export './employee/employee_page.dart';
+export 'employee/bottom_sheet/employee_update_bottom_sheet.dart';
+export './login/login_page.dart';
+export 'dine_in/dine_in_page.dart';
+export './table/table_page.dart';
+export './table/bottom_sheet/table_details_bottom_sheet.dart';
+export './table/bottom_sheet/table_update_bottom_sheet.dart';
+export './menu/menu_page.dart';
+export './menu/bottom_sheet/menu_details_bottom_sheet.dart';
+export './menu/bottom_sheet/menu_update_bottom_sheet.dart';
+export './dine_in/add_new_order/add_new_order_page.dart';

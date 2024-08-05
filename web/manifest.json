@@ -1,6 +1,6 @@
 {
-    "name": "osb",
-    "short_name": "osb",
+    "name": "om_saravana_bhavan_application",
+    "short_name": "om_saravana_bhavan_application",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

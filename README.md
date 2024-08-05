@@ -1,4 +1,4 @@
-# osb
+# om_saravana_bhavan_application
 
 A new Flutter project.
 
