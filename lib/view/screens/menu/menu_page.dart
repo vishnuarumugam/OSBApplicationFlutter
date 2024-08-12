@@ -62,11 +62,7 @@ class _MenuPageState extends State<MenuPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonAppBar(
-        onLeadingTap: () {
-          Navigator.pop(context);
-        },
-        onActionTap: () {},
+      appBar: const CommonAppBar(
         showLeading: true,
         showAction: false,
         title: AppStringConstants.menu,
@@ -94,10 +90,13 @@ class _MenuPageState extends State<MenuPage> {
           children: [
             searchWidget(),
             fieldSpacer(15),
-            categoryFilter(),
+            MenuCategoryWidget(
+                selectedValue: selectedIndex, onItemChange: onCategoryChange),
             fieldSpacer(8),
             listHeading(),
+            fieldSpacer(8),
             fetchMenuListComponent(),
+            fieldSpacer(65),
           ],
         ),
       ),
@@ -129,96 +128,10 @@ class _MenuPageState extends State<MenuPage> {
     );
   }
 
-  Widget categoryFilter() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      width: MediaQuery.sizeOf(context).width,
-      child: Column(
-        children: [
-          const Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              AppStringConstants.categories,
-              textAlign: TextAlign.start,
-              style: AppStyles.bodyHeaderBlack14,
-            ),
-          ),
-          fieldSpacer(15),
-          Container(
-            height: 104,
-            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: AppStringConstants.foodCategoryArray.length,
-              separatorBuilder: (context, index) => const SizedBox(width: 16.0),
-              physics: const ClampingScrollPhysics(),
-              itemBuilder: (context, index) {
-                final categoryName =
-                    AppStringConstants.foodCategoryArray[index];
-                final categoryImage =
-                    AppImageConstants.foodCategoryImageArray[index];
-                var iconSize = ((index == 2) || (index == 3)) ? 44.0 : 50.0;
-                var textTopPadding = ((index == 2) || (index == 3)) ? 6.0 : 0.0;
-                return Container(
-                  width: 85,
-                  height: 85,
-                  margin: const EdgeInsets.only(bottom: 4),
-                  decoration: BoxDecoration(
-                      color: selectedIndex == index
-                          ? AppColors.colorDark.withOpacity(0.7)
-                          : AppColors.colorLight,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.colorShadow.withOpacity(0.1),
-                          blurRadius: 1,
-                          spreadRadius: 1.0,
-                          offset: const Offset(0, 1),
-                        )
-                      ]),
-                  child: InkWell(
-                    onTap: () {
-                      if (selectedIndex == index) {
-                        selectedIndex = -1;
-                        searchMenuList = filterMenuCategory("");
-                      } else {
-                        selectedIndex = index;
-                        searchMenuList = filterMenuCategory(
-                            AppStringConstants.foodCategoryArray[index]);
-                      }
-                      setState(() {});
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            categoryImage,
-                            height: iconSize,
-                            width: iconSize,
-                            fit: BoxFit.fill,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: textTopPadding),
-                            child: Text(
-                              categoryName,
-                              style: AppStyles.bodyRegularBlack12,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          )
-        ],
-      ),
-    );
+  void onCategoryChange(searchValue, selectedValue) {
+    searchMenuList = filterMenuCategory(searchValue);
+    selectedIndex = selectedValue;
+    setState(() {});
   }
 
   Padding listHeading() {
@@ -262,85 +175,19 @@ class _MenuPageState extends State<MenuPage> {
       });
 
   Widget menuItemListComponent(List<Menu> menuList) {
-    return Container(
-      height: MediaQuery.sizeOf(context).height * 0.6,
-      alignment: Alignment.center,
-      margin: const EdgeInsets.symmetric(vertical: 15),
-      child: ListView.separated(
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: menuList.length,
-        separatorBuilder: (context, index) => const SizedBox(height: 16.0),
-        itemBuilder: (context, index) {
-          var menuItem = menuList[index];
-          return Container(
-            decoration: BoxDecoration(
-                color: AppColors.colorLight,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.colorGreyOut.withOpacity(0.1),
-                    blurRadius: 1,
-                    spreadRadius: 1.0,
-                    offset: const Offset(0, 4),
-                  )
-                ]),
-            child: InkWell(
-              onTap: () {
-                _showUpdateBottomSheet(context, menuItem);
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            menuItem.itemName ?? AppStringConstants.dashed,
-                            style: AppStyles.bodyHeaderBlack14,
-                            textAlign: TextAlign.left,
-                          ),
-                          fieldSpacer(8),
-                          Text(
-                            menuItem.itemType ?? AppStringConstants.dashed,
-                            style: AppStyles.bodyRegularBlack12,
-                            textAlign: TextAlign.left,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            (menuItem.itemPrice != null)
-                                ? "${AppStringConstants.rupeeSymbol} ${menuItem.itemPrice.toString()}"
-                                : AppStringConstants.dashed,
-                            style: AppStyles.bodyHeaderBlack14,
-                            textAlign: TextAlign.left,
-                          ),
-                          // fieldSpacer(8),
-                          // Text(
-                          //   categoryName,
-                          //   style: AppStyles.bodyRegularBlack12,
-                          //   textAlign: TextAlign.left,
-                          // ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
-      ),
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: menuList.length,
+      separatorBuilder: (context, index) => const SizedBox(height: 16.0),
+      itemBuilder: (context, index) {
+        var menuItem = menuList[index];
+        return MenuItemCardWidget(
+          menuItem: menuItem,
+          onItemClick: _showUpdateBottomSheet,
+          cardType: ItemCardType.menuList,
+        );
+      },
     );
   }
 
@@ -356,7 +203,7 @@ class _MenuPageState extends State<MenuPage> {
     );
   }
 
-  void _showUpdateBottomSheet(BuildContext context, Menu menu) {
+  void _showUpdateBottomSheet(menu) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {

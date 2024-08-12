@@ -32,8 +32,7 @@ class _MenuUpdateBottomSheetState extends State<MenuUpdateBottomSheet> {
       }
       Navigator.pop(context);
       hideLoader();
-      AppSnackBar().showSnackbar(
-          context, response.message ?? AppStringConstants.dashed, false);
+      showToast(context, response.message);
     } catch (error) {
       hideLoader();
       rethrow;

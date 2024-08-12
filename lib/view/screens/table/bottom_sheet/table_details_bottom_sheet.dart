@@ -33,8 +33,7 @@ class _TableDetailsBottomSheetState extends State<TableDetailsBottomSheet> {
         widget.onTableListChanged();
       }
       Navigator.pop(context);
-      AppSnackBar().showSnackbar(
-          context, response.message ?? AppStringConstants.dashed, false);
+      showToast(context, response.message);
       hideLoader();
     } catch (error) {
       hideLoader();
@@ -53,8 +52,7 @@ class _TableDetailsBottomSheetState extends State<TableDetailsBottomSheet> {
       }
       Navigator.pop(context);
       hideLoader();
-      AppSnackBar().showSnackbar(
-          context, response.message ?? AppStringConstants.dashed, false);
+      showToast(context, response.message);
     } catch (error) {
       hideLoader();
       rethrow;
@@ -236,7 +234,7 @@ class _TableDetailsBottomSheetState extends State<TableDetailsBottomSheet> {
           child: GestureDetector(
             onTap: () {
               setState(() {
-                isEmployeeListOpen = true;
+                isEmployeeListOpen = !isEmployeeListOpen;
               });
             },
             child: Container(

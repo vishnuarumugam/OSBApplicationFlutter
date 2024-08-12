@@ -70,8 +70,7 @@ class _EmployeeDetailBottomSheetState extends State<EmployeeDetailBottomSheet> {
         widget.onEmployeeListChanged();
       }
       Navigator.pop(context);
-      AppSnackBar().showSnackbar(
-          context, response.message ?? AppStringConstants.dashed, false);
+      showToast(context, response.message);
       hideLoader();
     } catch (error) {
       hideLoader();
@@ -90,8 +89,7 @@ class _EmployeeDetailBottomSheetState extends State<EmployeeDetailBottomSheet> {
       }
       Navigator.pop(context);
       hideLoader();
-      AppSnackBar().showSnackbar(
-          context, response.message ?? AppStringConstants.dashed, false);
+      showToast(context, response.message);
     } catch (error) {
       hideLoader();
       rethrow;

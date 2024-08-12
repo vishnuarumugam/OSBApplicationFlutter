@@ -2,16 +2,16 @@ import '../../../../app/app.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  final VoidCallback onLeadingTap;
-  final VoidCallback onActionTap;
+  final VoidCallback? onLeadingTap;
+  final VoidCallback? onActionTap;
   final bool showLeading;
   final bool showAction;
 
   const CommonAppBar(
       {super.key,
       required this.title,
-      required this.onLeadingTap,
-      required this.onActionTap,
+      this.onLeadingTap,
+      this.onActionTap,
       required this.showLeading,
       required this.showAction});
 
@@ -26,8 +26,11 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: AppColors.colorLight,
       elevation: 0.0,
       leading: showLeading
-          ? GestureDetector(
-              onTap: onLeadingTap,
+          ? InkWell(
+              onTap: onLeadingTap ??
+                  () {
+                    Navigator.pop(context);
+                  },
               child: Container(
                 margin: const EdgeInsets.all(10),
                 alignment: Alignment.center,

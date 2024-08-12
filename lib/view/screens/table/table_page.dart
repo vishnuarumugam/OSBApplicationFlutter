@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../../../app/app.dart';
 
@@ -30,11 +28,7 @@ class _TablePageState extends State<TablePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonAppBar(
-        onLeadingTap: () {
-          Navigator.pop(context);
-        },
-        onActionTap: () {},
+      appBar: const CommonAppBar(
         showLeading: true,
         showAction: false,
         title: AppStringConstants.table,
@@ -98,13 +92,13 @@ class _TablePageState extends State<TablePage> {
   }
 
   Widget tableComponent(DTable data) {
-    return InkWell(
-      onTap: () {
-        _showUpdateBottomSheet(context, data);
-      },
-      child: Column(
-        children: [
-          Container(
+    return Column(
+      children: [
+        InkWell(
+          onTap: () {
+            _showUpdateBottomSheet(context, data);
+          },
+          child: Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
@@ -137,7 +131,12 @@ class _TablePageState extends State<TablePage> {
               ],
             ),
           ),
-          Container(
+        ),
+        InkWell(
+          onTap: () {
+            _showUpdateBottomSheet(context, data);
+          },
+          child: Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
@@ -240,8 +239,8 @@ class _TablePageState extends State<TablePage> {
               ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

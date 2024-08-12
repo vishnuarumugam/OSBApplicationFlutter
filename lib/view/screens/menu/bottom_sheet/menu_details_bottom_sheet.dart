@@ -61,8 +61,7 @@ class _MenuDetailBottomSheetState extends State<MenuDetailBottomSheet> {
         widget.onMenuListChanged();
       }
       Navigator.pop(context);
-      AppSnackBar().showSnackbar(
-          context, response.message ?? AppStringConstants.dashed, false);
+      showToast(context, response.message);
       hideLoader();
     } catch (error) {
       hideLoader();
@@ -80,8 +79,7 @@ class _MenuDetailBottomSheetState extends State<MenuDetailBottomSheet> {
       }
       Navigator.pop(context);
       hideLoader();
-      AppSnackBar().showSnackbar(
-          context, response.message ?? AppStringConstants.dashed, false);
+      showToast(context, response.message);
     } catch (error) {
       hideLoader();
       rethrow;

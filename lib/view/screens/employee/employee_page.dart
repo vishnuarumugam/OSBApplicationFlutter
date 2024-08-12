@@ -16,11 +16,7 @@ class _EmployeePageState extends State<EmployeePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonAppBar(
-        onLeadingTap: () {
-          Navigator.pop(context);
-        },
-        onActionTap: () {},
+      appBar: const CommonAppBar(
         showLeading: true,
         showAction: false,
         title: AppStringConstants.employees,

@@ -13,11 +13,7 @@ class _DineInPageState extends State<DineInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonAppBar(
-        onLeadingTap: () {
-          Navigator.pop(context);
-        },
-        onActionTap: () {},
+      appBar: const CommonAppBar(
         showLeading: true,
         showAction: false,
         title: AppStringConstants.dineIn,

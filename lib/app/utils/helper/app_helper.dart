@@ -37,3 +37,8 @@ customLoader(BuildContext context) {
 pushToScreen(BuildContext context, Widget screen) {
   Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
 }
+
+showToast(BuildContext context, String? message) {
+  AppSnackBar()
+      .showSnackbar(context, message ?? AppStringConstants.dashed, false);
+}

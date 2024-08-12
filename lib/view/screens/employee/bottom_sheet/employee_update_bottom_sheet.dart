@@ -33,8 +33,7 @@ class _EmployeeUpdateBottomSheetState extends State<EmployeeUpdateBottomSheet> {
       }
       Navigator.pop(context);
       hideLoader();
-      AppSnackBar().showSnackbar(
-          context, response.message ?? AppStringConstants.dashed, false);
+      showToast(context, response.message);
     } catch (error) {
       hideLoader();
       rethrow;

@@ -28,12 +28,16 @@ class AppStringConstants {
   //Orders
   static const String dineIn = "Dine-in";
   static const String orders = 'Orders';
+  static const String orderDetails = "Order details";
   static const String newOrder = 'New order';
   static const String modifyOrder = 'Modify order';
   static const String activeOrders = 'Active orders';
   static const String openBills = 'Open bills';
   static const String closedBills = 'Closed bills';
   static const String placeOrder = 'Place order';
+  static const String reviewOrder = 'Review order';
+  static const String confirmOrder = 'Confirm order';
+  static const String addItem = 'Add';
 
   //Employee
   static const String employees = 'Employees';
@@ -68,6 +72,7 @@ class AppStringConstants {
   static const String occupancy = 'Occupancy';
   static const String enterOccupantsCount = 'Enter the occupants count';
   static const String noTables = 'Tables not found';
+  static const String totalItems = 'Total items';
 
   //Menu
   static const String menu = 'Menu';
