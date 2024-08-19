@@ -13,4 +13,7 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider(
     create: (_) => MenuViewModel(),
   ),
+  ChangeNotifierProvider(
+    create: (_) => DineInPageViewModel(),
+  ),
 ];

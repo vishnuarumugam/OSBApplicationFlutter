@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../../../../app/app.dart';
 
 class AddNewOrderPage extends StatefulWidget {
@@ -75,7 +77,7 @@ class _AddNewOrderPageState extends State<AddNewOrderPage> {
           title: AppStringConstants.newOrder,
           showLeading: true,
           showAction: false),
-      floatingActionButton: floatingActionButton(),
+      bottomNavigationBar: floatingActionButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: screenView(),
     );
@@ -133,8 +135,11 @@ class _AddNewOrderPageState extends State<AddNewOrderPage> {
             InkWell(
                 onTap: () async {
                   if (validateOrderData()) {
-                    pushToScreen(context,
-                        NewOrderConfirmationPage(orderDetails: orderDetails));
+                    pushToScreen(
+                        context,
+                        NewOrderConfirmationPage(
+                          orderDetails: orderDetails,
+                        ));
                   }
                 },
                 child: Container(
@@ -145,7 +150,8 @@ class _AddNewOrderPageState extends State<AddNewOrderPage> {
                         color: validateOrderData()
                             ? AppColors.colorDark
                             : AppColors.colorGreyOut,
-                        borderRadius: BorderRadius.all(Radius.circular(24))),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(24))),
                     child: const Text(
                       AppStringConstants.reviewOrder,
                       style: AppStyles.buttonTvStyle,
@@ -316,9 +322,15 @@ class _AddNewOrderPageState extends State<AddNewOrderPage> {
       itemCount: menuList.length,
       separatorBuilder: (context, index) => const SizedBox(height: 16.0),
       itemBuilder: (context, index) {
+        var isItemOrdered = isItemAdded(menuList[index]);
         var menuItem = menuList[index];
+
+        if (isItemOrdered != -1) {
+          menuItem.itemQty = orderDetails.itemList?[isItemOrdered].itemCount;
+        }
         return MenuItemCardWidget(
           menuItem: menuItem,
+          isItemOrdered: (isItemOrdered != -1) ? true : false,
           cardType: ItemCardType.orderList,
           onItemAdded: addItem,
           onItemRemoved: removeItem,
@@ -510,6 +522,17 @@ class _AddNewOrderPageState extends State<AddNewOrderPage> {
     }
   }
 
+  int isItemAdded(Menu menuItem) {
+    if (orderDetails.itemList != null) {
+      int index = (orderDetails.itemList ?? [])
+          .indexWhere((item) => item.menuId == menuItem.documentId);
+      if (index != -1) {
+        return index;
+      }
+    }
+    return -1;
+  }
+
   void addItem(orderItem) {
     if (orderDetails.itemList != null) {
       int index = (orderDetails.itemList ?? [])
@@ -524,6 +547,7 @@ class _AddNewOrderPageState extends State<AddNewOrderPage> {
       orderDetails.itemList = [];
       orderDetails.itemList?.add(orderItem);
     }
+
     setState(() {});
   }
 

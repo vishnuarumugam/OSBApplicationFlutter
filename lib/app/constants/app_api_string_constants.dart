@@ -14,5 +14,10 @@ class AppApiStringConstants {
   static const String menuDelete = 'Menu item deleted successfully.';
   static const String menuNotFound = 'Menu item not found.';
 
+  static const String orderAdded = 'Order added successfully.';
+  static const String orderUpdate = 'Order updated successfully.';
+  static const String orderDelete = 'Order deleted successfully.';
+  static const String orderNotFound = 'Order item not found.';
+
   static const String serverError = 'Something went wrong. Please try again.';
 }

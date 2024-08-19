@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../../../app/app.dart';
 
 class DineInPage extends StatefulWidget {
@@ -9,6 +11,27 @@ class DineInPage extends StatefulWidget {
 
 class _DineInPageState extends State<DineInPage> {
   Set<DineInEnum> segmentSelection = <DineInEnum>{DineInEnum.activeOrders};
+  List<OrderDetail> orderListResponse = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getOrder();
+  }
+
+  Future<void> getOrder() async {
+    var orderDetailList =
+        await Provider.of<DineInPageViewModel>(context, listen: false)
+            .getOrders();
+
+    if (orderDetailList.isNotEmpty) {
+      orderListResponse = orderDetailList;
+    } else {
+      orderListResponse = [];
+    }
+    log("orderListResponse ${orderListResponse}");
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {

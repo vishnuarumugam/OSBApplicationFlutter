@@ -1,9 +1,14 @@
+import 'dart:developer';
+
 import '../../../../app/app.dart';
 
 class NewOrderConfirmationPage extends StatefulWidget {
   final OrderDetail orderDetails;
 
-  const NewOrderConfirmationPage({super.key, required this.orderDetails});
+  const NewOrderConfirmationPage({
+    super.key,
+    required this.orderDetails,
+  });
 
   @override
   State<NewOrderConfirmationPage> createState() =>
@@ -18,10 +23,30 @@ class _NewOrderConfirmationPageState extends State<NewOrderConfirmationPage> {
           title: AppStringConstants.reviewOrder,
           showLeading: true,
           showAction: false),
-      floatingActionButton: floatingActionButton(),
+      bottomNavigationBar: floatingActionButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: screenView(),
     );
+  }
+
+  createOrder() async {
+    showLoader(context);
+    try {
+      var response =
+          await Provider.of<DineInPageViewModel>(context, listen: false)
+              .createOrder(widget.orderDetails);
+      log("widget.orderDetails ${widget.orderDetails.totalOrderAmount}");
+      log("widget.orderDetails ${widget.orderDetails.itemList?.length}");
+      if (response.statusCode == 200) {
+        // widget.onOrderListChanged();
+      }
+      //Navigator.pop(context);
+      showToast(context, response.message);
+      hideLoader();
+    } catch (error) {
+      hideLoader();
+      rethrow;
+    }
   }
 
   Widget screenView() {
@@ -145,36 +170,90 @@ class _NewOrderConfirmationPageState extends State<NewOrderConfirmationPage> {
           });
 
   Widget floatingActionButton() {
-    return Container(
-      alignment: Alignment.center,
-      height: 100,
-      padding: const EdgeInsets.all(16),
-      decoration: const BoxDecoration(
-        border: Border(
-            top: BorderSide(
-          color: AppColors.colorGridLine,
-          width: 2.0,
-        )),
-        color: AppColors.colorWhite,
-      ),
+    return SizedBox(
+      height: 140,
       child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            InkWell(
-                onTap: () async {},
-                child: Container(
-                    alignment: Alignment.center,
-                    width: MediaQuery.sizeOf(context).width,
-                    constraints: const BoxConstraints(minHeight: 48),
-                    decoration: const BoxDecoration(
-                        color: AppColors.colorDark,
-                        borderRadius: BorderRadius.all(Radius.circular(24))),
-                    child: const Text(
-                      AppStringConstants.confirmOrder,
-                      style: AppStyles.buttonTvStyle,
-                    ))),
-          ]),
+        children: [
+          Container(
+            height: 40,
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 2),
+            color: AppColors.colorLight.withOpacity(0.5),
+            child: Row(
+              children: [
+                const Expanded(
+                  flex: 1,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      AppStringConstants.orderPrice,
+                      style: AppStyles.bodySemiBoldBlack14,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      softWrap: false,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      '${AppStringConstants.rupeeSymbol} ${(getTotalOrderAmount() ?? AppStringConstants.dashed).toString()}',
+                      style: AppStyles.bodySemiBoldBlack14,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      softWrap: false,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            alignment: Alignment.center,
+            height: 100,
+            padding: const EdgeInsets.all(16),
+            decoration: const BoxDecoration(
+              border: Border(
+                  top: BorderSide(
+                color: AppColors.colorGridLine,
+                width: 2.0,
+              )),
+              color: AppColors.colorWhite,
+            ),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  InkWell(
+                      onTap: () async {
+                        widget.orderDetails.totalOrderAmount =
+                            getTotalOrderAmount();
+                        widget.orderDetails.createdAt =
+                            DateTime.now().millisecondsSinceEpoch;
+                        widget.orderDetails.updatedAt =
+                            DateTime.now().millisecondsSinceEpoch;
+                        widget.orderDetails.orderStatus = "Active";
+                        setState(() {});
+                        log("widget.orderDetails ${widget.orderDetails.itemList.toString()}");
+                        createOrder();
+                      },
+                      child: Container(
+                          alignment: Alignment.center,
+                          width: MediaQuery.sizeOf(context).width,
+                          constraints: const BoxConstraints(minHeight: 48),
+                          decoration: const BoxDecoration(
+                              color: AppColors.colorDark,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(24))),
+                          child: const Text(
+                            AppStringConstants.confirmOrder,
+                            style: AppStyles.buttonTvStyle,
+                          ))),
+                ]),
+          ),
+        ],
+      ),
     );
   }
 
@@ -289,5 +368,20 @@ class _NewOrderConfirmationPageState extends State<NewOrderConfirmationPage> {
         ),
       ],
     );
+  }
+
+  int? getTotalOrderAmount() {
+    List<OrderItemDetailModel> orderList = widget.orderDetails.itemList ?? [];
+    int totalOrderAmount = 0;
+    if (orderList.isNotEmpty) {
+      totalOrderAmount = calculateTotalPrice(orderList);
+    }
+    return totalOrderAmount;
+  }
+
+  int calculateTotalPrice(List<OrderItemDetailModel> items) {
+    return items
+        .where((item) => item.totalItemPrice != null)
+        .fold(0, (sum, item) => sum + item.totalItemPrice!);
   }
 }

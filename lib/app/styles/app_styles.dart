@@ -134,4 +134,11 @@ class AppStyles {
     fontWeight: FontWeight.w500,
     fontStyle: FontStyle.normal,
   );
+
+  static const TextStyle bodySemiBoldBlack14 = TextStyle(
+    fontSize: 14,
+    color: AppColors.colorBlack,
+    fontWeight: FontWeight.w600,
+    fontStyle: FontStyle.normal,
+  );
 }

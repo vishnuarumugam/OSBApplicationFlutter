@@ -38,6 +38,7 @@ class AppStringConstants {
   static const String reviewOrder = 'Review order';
   static const String confirmOrder = 'Confirm order';
   static const String addItem = 'Add';
+  static const String orderPrice = 'Order price';
 
   //Employee
   static const String employees = 'Employees';
@@ -112,6 +113,7 @@ class TableNames {
   static const String employeeDetailsTable = 'employee_details';
   static const String tableDetailsTable = 'table_details';
   static const String menuDetailsTable = 'menu_details';
+  static const String dineInDetailsTable = 'dine_in_order_details';
 }
 
 class SheetNames {

@@ -21,6 +21,8 @@ class OrderDetail {
       required this.waiterId,
       required this.occupancyCount,
       required this.orderStatus,
+      required this.itemList,
+      required this.totalOrderAmount,
       required this.createdAt,
       required this.updatedAt});
 
@@ -31,12 +33,17 @@ class OrderDetail {
       'waiter_id': waiterId,
       'occupancy_count': occupancyCount,
       'order_status': orderStatus,
+      'item_list':
+          List<OrderItemDetailModel>.from(itemList!.map((x) => x.toJson())),
+      'total_order_amount': totalOrderAmount,
       'created_at': createdAt,
       'updated_at': updatedAt
     };
   }
 
   factory OrderDetail.fromJson(Map<String, dynamic> json) {
+    List<OrderItemDetailModel> items = List<OrderItemDetailModel>.from(
+        json["item_list"]!.map((x) => OrderItemDetailModel.fromJson(x)));
     return switch (json) {
       {
         'id': String id,
@@ -45,6 +52,8 @@ class OrderDetail {
         'waiter_id': String waiterId,
         'occupancy_count': int occupancyCount,
         'order_status': String orderStatus,
+        'item_list': List<OrderItemDetailModel> itemList,
+        'total_order_amount': int totalOrderAmount,
         'created_at': int createdAt,
         'updated_at': int updatedAt,
       } =>
@@ -55,10 +64,12 @@ class OrderDetail {
             waiterId: waiterId,
             occupancyCount: occupancyCount,
             orderStatus: orderStatus,
+            itemList: itemList,
+            totalOrderAmount: totalOrderAmount,
             createdAt: createdAt,
             updatedAt: updatedAt),
-      _ => throw const FormatException(
-          'Failed to convert JSON to Employee model.'),
+      _ =>
+        throw const FormatException('Failed to convert JSON to Order model.'),
     };
   }
 
@@ -72,6 +83,8 @@ class OrderDetail {
         'waiter_id': String waiterId,
         'occupancy_count': int occupancyCount,
         'order_status': String orderStatus,
+        'item_list': List<OrderItemDetailModel> itemList,
+        'total_order_amount': int totalOrderAmount,
         'created_at': int createdAt,
         'updated_at': int updatedAt,
       } =>
@@ -82,10 +95,12 @@ class OrderDetail {
             waiterId: waiterId,
             occupancyCount: occupancyCount,
             orderStatus: orderStatus,
+            itemList: itemList,
+            totalOrderAmount: totalOrderAmount,
             createdAt: createdAt,
             updatedAt: updatedAt),
-      _ => throw const FormatException(
-          'Failed to convert JSON to Employee model.'),
+      _ =>
+        throw const FormatException('Failed to convert JSON to Order model.'),
     };
   }
 }

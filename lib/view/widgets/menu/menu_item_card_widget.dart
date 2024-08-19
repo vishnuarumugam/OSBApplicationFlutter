@@ -4,6 +4,7 @@ import '../../../app/app.dart';
 
 class MenuItemCardWidget extends StatefulWidget {
   final Menu menuItem;
+  final bool isItemOrdered;
   final ItemCardType cardType;
   final void Function(dynamic)? onItemClick;
   final void Function(dynamic)? onItemAdded;
@@ -12,6 +13,7 @@ class MenuItemCardWidget extends StatefulWidget {
   MenuItemCardWidget(
       {super.key,
       required this.menuItem,
+      this.isItemOrdered = false,
       this.onItemClick,
       required this.cardType,
       this.onItemAdded,
@@ -23,6 +25,12 @@ class MenuItemCardWidget extends StatefulWidget {
 
 class _MenuItemCardWidgetState extends State<MenuItemCardWidget> {
   OrderItemDetailModel orderItem = OrderItemDetailModel.withDefaults();
+
+  @override
+  void initState() {
+    super.initState();
+    setValues();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +149,6 @@ class _MenuItemCardWidgetState extends State<MenuItemCardWidget> {
       orderItem.itemCount = itemCount;
       orderItem.totalItemPrice =
           ((orderItem.itemCount ?? 0) * (widget.menuItem.itemPrice ?? 0));
-      log("orderItem.totalItemPrice ${orderItem.totalItemPrice}");
       if (widget.onItemAdded != null) {
         widget.onItemAdded?.call(orderItem);
       }
@@ -164,6 +171,17 @@ class _MenuItemCardWidgetState extends State<MenuItemCardWidget> {
 
     if (widget.onItemAdded != null) {
       widget.onItemAdded?.call(orderItem);
+    }
+  }
+
+  Future<void> setValues() async {
+    if (widget.isItemOrdered) {
+      orderItem.itemCount = widget.menuItem.itemQty;
+      orderItem.menuId = widget.menuItem.documentId;
+      orderItem.itemName = widget.menuItem.itemName;
+      orderItem.itemPrice = widget.menuItem.itemPrice;
+      orderItem.totalItemPrice =
+          ((orderItem.itemCount ?? 0) * (widget.menuItem.itemPrice ?? 0));
     }
   }
 }
