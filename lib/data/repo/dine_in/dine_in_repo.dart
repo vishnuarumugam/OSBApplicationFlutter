@@ -20,12 +20,12 @@ class DineInRepo {
     try {
       final querySnapshot = await _db.get();
       List<OrderDetail> orderList = [];
-      final orderData =
-          querySnapshot.docs.map((e) => OrderDetail.fromSnapshot(e));
-
-      for (var orderItem in orderData) {
-        orderList.add(orderItem);
+      for (var doc in querySnapshot.docs) {
+        final data = doc.data();
+        final orderDetail = OrderDetail.fromJson(data);
+        orderList.add(orderDetail);
       }
+
       return orderList;
     } catch (e) {
       return [];

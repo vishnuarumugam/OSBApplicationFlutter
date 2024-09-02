@@ -1,77 +1,72 @@
-import '../../../app/app.dart';
-
 class OrderItemDetailModel {
-  String? documentId;
-  String? menuId;
-  String? itemName;
   int? itemCount;
-  int? itemPrice;
   int? totalItemPrice;
+  int? itemPrice;
+  String? itemName;
+  String? menuId;
+
+  OrderItemDetailModel({
+    this.itemCount,
+    this.totalItemPrice,
+    this.itemPrice,
+    this.itemName,
+    this.menuId,
+  });
 
   OrderItemDetailModel.withDefaults();
 
-  OrderItemDetailModel(
-      {this.documentId,
-      required this.menuId,
-      required this.itemName,
-      required this.itemCount,
-      required this.itemPrice,
-      required this.totalItemPrice});
+  OrderItemDetailModel copyWith({
+    int? itemCount,
+    int? totalItemPrice,
+    int? itemPrice,
+    String? itemName,
+    String? menuId,
+  }) {
+    return OrderItemDetailModel(
+      itemCount: itemCount ?? this.itemCount,
+      totalItemPrice: totalItemPrice ?? this.totalItemPrice,
+      itemPrice: itemPrice ?? this.itemPrice,
+      itemName: itemName ?? this.itemName,
+      menuId: menuId ?? this.menuId,
+    );
+  }
 
-  toJson() {
+  Map<String, dynamic> toJson() {
     return {
-      'menu_id': menuId,
-      'item_name': itemName,
       'item_count': itemCount,
-      'item_price': itemPrice,
       'total_item_price': totalItemPrice,
+      'item_price': itemPrice,
+      'item_name': itemName,
+      'menu_id': menuId,
     };
   }
 
   factory OrderItemDetailModel.fromJson(Map<String, dynamic> json) {
-    return switch (json) {
-      {
-        'id': String id,
-        'menu_id': String menuId,
-        'item_name': String itemName,
-        'item_count': int itemCount,
-        'item_price': int itemPrice,
-        'total_item_price': int totalItemPrice,
-      } =>
-        OrderItemDetailModel(
-          documentId: id,
-          menuId: menuId,
-          itemName: itemName,
-          itemCount: itemCount,
-          itemPrice: itemPrice,
-          totalItemPrice: totalItemPrice,
-        ),
-      _ => throw const FormatException(
-          'Failed to convert JSON to OrderItemDetailModel.'),
-    };
+    return OrderItemDetailModel(
+      itemCount: json['item_count'] as int?,
+      totalItemPrice: json['total_item_price'] as int?,
+      itemPrice: json['item_price'] as int?,
+      itemName: json['item_name'] as String?,
+      menuId: json['menu_id'] as String?,
+    );
   }
 
-  factory OrderItemDetailModel.fromSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> document) {
-    final data = document.data();
-    return switch (data) {
-      {
-        'menu_id': String menuId,
-        'item_name': String itemName,
-        'item_count': int itemCount,
-        'item_price': int itemPrice,
-        'total_item_price': int totalItemPrice,
-      } =>
-        OrderItemDetailModel(
-          documentId: document.id,
-          menuId: menuId,
-          itemName: itemName,
-          itemCount: itemCount,
-          itemPrice: itemPrice,
-          totalItemPrice: totalItemPrice,
-        ),
-      _ => throw const FormatException(
-          'Failed to convert JSON to OrderItemDetailModel.'),
-    };
-  }
+  @override
+  String toString() =>
+      "ItemList(itemCount: $itemCount,totalItemPrice: $totalItemPrice,itemPrice: $itemPrice,itemName: $itemName,menuId: $menuId)";
+
+  @override
+  int get hashCode =>
+      Object.hash(itemCount, totalItemPrice, itemPrice, itemName, menuId);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is OrderItemDetailModel &&
+          runtimeType == other.runtimeType &&
+          itemCount == other.itemCount &&
+          totalItemPrice == other.totalItemPrice &&
+          itemPrice == other.itemPrice &&
+          itemName == other.itemName &&
+          menuId == other.menuId;
 }

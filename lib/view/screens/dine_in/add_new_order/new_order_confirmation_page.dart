@@ -4,10 +4,12 @@ import '../../../../app/app.dart';
 
 class NewOrderConfirmationPage extends StatefulWidget {
   final OrderDetail orderDetails;
+  final VoidCallback onOrderListChanged;
 
   const NewOrderConfirmationPage({
     super.key,
     required this.orderDetails,
+    required this.onOrderListChanged,
   });
 
   @override
@@ -35,12 +37,9 @@ class _NewOrderConfirmationPageState extends State<NewOrderConfirmationPage> {
       var response =
           await Provider.of<DineInPageViewModel>(context, listen: false)
               .createOrder(widget.orderDetails);
-      log("widget.orderDetails ${widget.orderDetails.totalOrderAmount}");
-      log("widget.orderDetails ${widget.orderDetails.itemList?.length}");
       if (response.statusCode == 200) {
-        // widget.onOrderListChanged();
+        widget.onOrderListChanged();
       }
-      //Navigator.pop(context);
       showToast(context, response.message);
       hideLoader();
     } catch (error) {

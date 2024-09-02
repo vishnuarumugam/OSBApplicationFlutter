@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import '../../../../app/app.dart';
 
 class AddNewOrderPage extends StatefulWidget {
@@ -139,6 +137,7 @@ class _AddNewOrderPageState extends State<AddNewOrderPage> {
                         context,
                         NewOrderConfirmationPage(
                           orderDetails: orderDetails,
+                          onOrderListChanged: _handleDineInListModified,
                         ));
                   }
                 },
@@ -577,5 +576,10 @@ class _AddNewOrderPageState extends State<AddNewOrderPage> {
       return false;
     }
     return true;
+  }
+
+  void _handleDineInListModified() {
+    Navigator.pop(context);
+    Navigator.pop(context, true);
   }
 }

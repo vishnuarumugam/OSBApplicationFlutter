@@ -13,3 +13,4 @@ export './menu/bottom_sheet/menu_details_bottom_sheet.dart';
 export './menu/bottom_sheet/menu_update_bottom_sheet.dart';
 export './dine_in/add_new_order/add_new_order_page.dart';
 export './dine_in/add_new_order/new_order_confirmation_page.dart';
+export './dine_in/order_card_widget.dart';

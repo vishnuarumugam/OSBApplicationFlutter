@@ -2,29 +2,56 @@ import '../../../app/app.dart';
 
 class OrderDetail {
   String? documentId;
-  String? tableName;
   String? waiterName;
-  String? waiterId;
-  int? occupancyCount;
   String? orderStatus;
+  int? updatedAt;
   List<OrderItemDetailModel>? itemList;
   int? totalOrderAmount;
   int? createdAt;
-  int? updatedAt;
+  int? occupancyCount;
+  String? tableName;
+  String? waiterId;
 
   OrderDetail.withDefaults();
 
-  OrderDetail(
-      {this.documentId,
-      required this.tableName,
-      required this.waiterName,
-      required this.waiterId,
-      required this.occupancyCount,
-      required this.orderStatus,
-      required this.itemList,
-      required this.totalOrderAmount,
-      required this.createdAt,
-      required this.updatedAt});
+  OrderDetail({
+    this.documentId,
+    this.waiterName,
+    this.orderStatus,
+    this.updatedAt,
+    this.itemList,
+    this.totalOrderAmount,
+    this.createdAt,
+    this.occupancyCount,
+    this.tableName,
+    this.waiterId,
+  });
+
+  OrderDetail copyWith({
+    String? documentId,
+    String? waiterName,
+    String? orderStatus,
+    int? updatedAt,
+    List<OrderItemDetailModel>? itemList,
+    int? totalOrderAmount,
+    int? createdAt,
+    int? occupancyCount,
+    String? tableName,
+    String? waiterId,
+  }) {
+    return OrderDetail(
+      documentId: documentId ?? this.documentId,
+      waiterName: waiterName ?? this.waiterName,
+      orderStatus: orderStatus ?? this.orderStatus,
+      updatedAt: updatedAt ?? this.updatedAt,
+      itemList: itemList ?? this.itemList,
+      totalOrderAmount: totalOrderAmount ?? this.totalOrderAmount,
+      createdAt: createdAt ?? this.createdAt,
+      occupancyCount: occupancyCount ?? this.occupancyCount,
+      tableName: tableName ?? this.tableName,
+      waiterId: waiterId ?? this.waiterId,
+    );
+  }
 
   toJson() {
     return {
@@ -33,8 +60,7 @@ class OrderDetail {
       'waiter_id': waiterId,
       'occupancy_count': occupancyCount,
       'order_status': orderStatus,
-      'item_list':
-          List<OrderItemDetailModel>.from(itemList!.map((x) => x.toJson())),
+      'item_list': itemList?.map((x) => x.toJson()).toList(),
       'total_order_amount': totalOrderAmount,
       'created_at': createdAt,
       'updated_at': updatedAt
@@ -42,65 +68,52 @@ class OrderDetail {
   }
 
   factory OrderDetail.fromJson(Map<String, dynamic> json) {
-    List<OrderItemDetailModel> items = List<OrderItemDetailModel>.from(
-        json["item_list"]!.map((x) => OrderItemDetailModel.fromJson(x)));
-    return switch (json) {
-      {
-        'id': String id,
-        'table_name': String tableName,
-        'waiter_name': String waiterName,
-        'waiter_id': String waiterId,
-        'occupancy_count': int occupancyCount,
-        'order_status': String orderStatus,
-        'item_list': List<OrderItemDetailModel> itemList,
-        'total_order_amount': int totalOrderAmount,
-        'created_at': int createdAt,
-        'updated_at': int updatedAt,
-      } =>
-        OrderDetail(
-            documentId: id,
-            tableName: tableName,
-            waiterName: waiterName,
-            waiterId: waiterId,
-            occupancyCount: occupancyCount,
-            orderStatus: orderStatus,
-            itemList: itemList,
-            totalOrderAmount: totalOrderAmount,
-            createdAt: createdAt,
-            updatedAt: updatedAt),
-      _ =>
-        throw const FormatException('Failed to convert JSON to Order model.'),
-    };
+    return OrderDetail(
+      documentId: json['documentId'] as String?,
+      waiterName: json['waiter_name'] as String?,
+      orderStatus: json['order_status'] as String?,
+      updatedAt: json['updated_at'] as int?,
+      itemList: (json['item_list'] as List<dynamic>?)
+          ?.map((e) => OrderItemDetailModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      totalOrderAmount: json['total_order_amount'] as int?,
+      createdAt: json['created_at'] as int?,
+      occupancyCount: json['occupancy_count'] as int?,
+      tableName: json['table_name'] as String?,
+      waiterId: json['waiter_id'] as String?,
+    );
   }
 
-  factory OrderDetail.fromSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> document) {
-    final data = document.data();
-    return switch (data) {
-      {
-        'table_name': String tableName,
-        'waiter_name': String waiterName,
-        'waiter_id': String waiterId,
-        'occupancy_count': int occupancyCount,
-        'order_status': String orderStatus,
-        'item_list': List<OrderItemDetailModel> itemList,
-        'total_order_amount': int totalOrderAmount,
-        'created_at': int createdAt,
-        'updated_at': int updatedAt,
-      } =>
-        OrderDetail(
-            documentId: document.id,
-            tableName: tableName,
-            waiterName: waiterName,
-            waiterId: waiterId,
-            occupancyCount: occupancyCount,
-            orderStatus: orderStatus,
-            itemList: itemList,
-            totalOrderAmount: totalOrderAmount,
-            createdAt: createdAt,
-            updatedAt: updatedAt),
-      _ =>
-        throw const FormatException('Failed to convert JSON to Order model.'),
-    };
-  }
+  @override
+  String toString() =>
+      "OrderDetail(documentId: $documentId,waiterName: $waiterName,orderStatus: $orderStatus,updatedAt: $updatedAt,itemList: $itemList,totalOrderAmount: $totalOrderAmount,createdAt: $createdAt,occupancyCount: $occupancyCount,tableName: $tableName,waiterId: $waiterId)";
+
+  @override
+  int get hashCode => Object.hash(
+      documentId,
+      waiterName,
+      orderStatus,
+      updatedAt,
+      itemList,
+      totalOrderAmount,
+      createdAt,
+      occupancyCount,
+      tableName,
+      waiterId);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is OrderDetail &&
+          runtimeType == other.runtimeType &&
+          documentId == other.documentId &&
+          waiterName == other.waiterName &&
+          orderStatus == other.orderStatus &&
+          updatedAt == other.updatedAt &&
+          itemList == other.itemList &&
+          totalOrderAmount == other.totalOrderAmount &&
+          createdAt == other.createdAt &&
+          occupancyCount == other.occupancyCount &&
+          tableName == other.tableName &&
+          waiterId == other.waiterId;
 }

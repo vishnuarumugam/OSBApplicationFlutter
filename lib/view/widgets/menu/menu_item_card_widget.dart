@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import '../../../app/app.dart';
 
 class MenuItemCardWidget extends StatefulWidget {
