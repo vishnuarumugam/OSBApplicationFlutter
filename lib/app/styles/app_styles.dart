@@ -114,6 +114,13 @@ class AppStyles {
     fontStyle: FontStyle.normal,
   );
 
+  static const TextStyle bodyGreyOutColorDark14 = TextStyle(
+    fontSize: 14,
+    color: AppColors.colorProgressGrey,
+    fontWeight: FontWeight.w600,
+    fontStyle: FontStyle.normal,
+  );
+
   static const TextStyle bodySemiBoldBlack12 = TextStyle(
     fontSize: 12,
     color: AppColors.colorBlack,
@@ -138,6 +145,27 @@ class AppStyles {
   static const TextStyle bodySemiBoldBlack14 = TextStyle(
     fontSize: 14,
     color: AppColors.colorBlack,
+    fontWeight: FontWeight.w600,
+    fontStyle: FontStyle.normal,
+  );
+
+  static const TextStyle activeOrder = TextStyle(
+    fontSize: 14,
+    color: AppColors.neutralColor,
+    fontWeight: FontWeight.w600,
+    fontStyle: FontStyle.normal,
+  );
+
+  static const TextStyle openOrder = TextStyle(
+    fontSize: 14,
+    color: AppColors.negativeColor,
+    fontWeight: FontWeight.w600,
+    fontStyle: FontStyle.normal,
+  );
+
+  static const TextStyle closedOrder = TextStyle(
+    fontSize: 14,
+    color: AppColors.positiveColor,
     fontWeight: FontWeight.w600,
     fontStyle: FontStyle.normal,
   );

@@ -12,5 +12,8 @@ class AppColors {
   static const Color colorProgressGrey = Color(0xFFD9D9D9);
   static const Color colorWhite = Color(0xFFFFFFFF);
   static const Color colorShadow = Color(0xff1D1617);
-  static const placeholderTextColor = Color(0xff999999);
+  static const Color placeholderTextColor = Color(0xff999999);
+  static const Color positiveColor = Color(0xFF468847);
+  static const Color negativeColor = Color(0xFFB94A48);
+  static const Color neutralColor = Color.fromARGB(255, 245, 191, 14);
 }

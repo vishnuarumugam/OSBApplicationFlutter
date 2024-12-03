@@ -1,7 +1,10 @@
 import '../../../../app/app.dart';
 
 class AddNewOrderPage extends StatefulWidget {
-  const AddNewOrderPage({super.key});
+  bool existingOrder;
+  OrderDetail? orderDetail;
+
+  AddNewOrderPage({super.key, this.existingOrder = false, this.orderDetail});
 
   @override
   State<AddNewOrderPage> createState() => _AddNewOrderPageState();
@@ -26,6 +29,9 @@ class _AddNewOrderPageState extends State<AddNewOrderPage> {
     getEmployees();
     getTables();
     getMenuItem();
+    if (widget.existingOrder) {
+      setOrderData();
+    }
   }
 
   Future<void> getEmployees() async {
@@ -66,6 +72,10 @@ class _AddNewOrderPageState extends State<AddNewOrderPage> {
       searchMenuList = Future.value([]);
     }
     setState(() {});
+  }
+
+  setOrderData() {
+    orderDetails = widget.orderDetail ?? OrderDetail.withDefaults();
   }
 
   @override
@@ -278,7 +288,9 @@ class _AddNewOrderPageState extends State<AddNewOrderPage> {
         ),
         AppItemCounterWidget(
           onItemChange: memberChange,
-          counterValue: 0,
+          counterValue: widget.existingOrder
+              ? (widget.orderDetail?.occupancyCount ?? 0)
+              : 0,
         )
       ],
     );

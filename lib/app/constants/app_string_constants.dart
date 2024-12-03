@@ -34,11 +34,25 @@ class AppStringConstants {
   static const String activeOrders = 'Active orders';
   static const String openBills = 'Open bills';
   static const String closedBills = 'Closed bills';
-  static const String placeOrder = 'Place order';
   static const String reviewOrder = 'Review order';
+  static const String updateOrder = 'Update order';
   static const String confirmOrder = 'Confirm order';
+  static const String createBill = 'Create bill';
+  static const String closeBill = 'Close bill';
   static const String addItem = 'Add';
   static const String orderPrice = 'Order price';
+  static const String confirmDelete = "Confirm delete";
+  static const String confirmDeleteMsg =
+      "Are you sure you want to delete this order?'";
+  static const String confirmCreate = "Confirm create bill";
+  static const String confirmCreateMsg =
+      "Are you sure you want to create a bill for this order?";
+  static const String create = 'Yes, create';
+  static const String close = 'Yes, close';
+  static const String confirmClose = "Confirm close bill";
+  static const String confirmCloseMsg =
+      "Are you sure you want to close this bill?";
+  static const String billDelete = 'Yes, delete';
 
   //Employee
   static const String employees = 'Employees';

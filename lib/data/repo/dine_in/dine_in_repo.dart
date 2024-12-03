@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../../../app/app.dart';
 
 class DineInRepo {
@@ -22,7 +24,7 @@ class DineInRepo {
       List<OrderDetail> orderList = [];
       for (var doc in querySnapshot.docs) {
         final data = doc.data();
-        final orderDetail = OrderDetail.fromJson(data);
+        final orderDetail = OrderDetail.fromJson(data, doc.id);
         orderList.add(orderDetail);
       }
 
@@ -39,7 +41,7 @@ class DineInRepo {
         if (!snapshot.exists) {
           throw Exception(AppApiStringConstants.orderNotFound);
         }
-        await _db.doc(orderDetail.documentId).update(orderDetail.toJson());
+        await _db.doc(orderDetail.documentId).delete();
         return BaseResponse(
             statusCode: 200, message: AppApiStringConstants.orderDelete);
       } else {

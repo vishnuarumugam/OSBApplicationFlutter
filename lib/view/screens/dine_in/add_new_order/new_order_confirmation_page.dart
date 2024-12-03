@@ -3,11 +3,13 @@ import 'dart:developer';
 import '../../../../app/app.dart';
 
 class NewOrderConfirmationPage extends StatefulWidget {
+  bool existingOrder;
   final OrderDetail orderDetails;
   final VoidCallback onOrderListChanged;
 
-  const NewOrderConfirmationPage({
+  NewOrderConfirmationPage({
     super.key,
+    this.existingOrder = false,
     required this.orderDetails,
     required this.onOrderListChanged,
   });
@@ -170,11 +172,11 @@ class _NewOrderConfirmationPageState extends State<NewOrderConfirmationPage> {
 
   Widget floatingActionButton() {
     return SizedBox(
-      height: 140,
+      height: (!widget.existingOrder) ? 140 : 80,
       child: Column(
         children: [
           Container(
-            height: 40,
+            height: (!widget.existingOrder) ? 40 : 80,
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 2),
             color: AppColors.colorLight.withOpacity(0.5),
             child: Row(
@@ -208,49 +210,50 @@ class _NewOrderConfirmationPageState extends State<NewOrderConfirmationPage> {
               ],
             ),
           ),
-          Container(
-            alignment: Alignment.center,
-            height: 100,
-            padding: const EdgeInsets.all(16),
-            decoration: const BoxDecoration(
-              border: Border(
-                  top: BorderSide(
-                color: AppColors.colorGridLine,
-                width: 2.0,
-              )),
-              color: AppColors.colorWhite,
+          if (!widget.existingOrder)
+            Container(
+              alignment: Alignment.center,
+              height: 100,
+              padding: const EdgeInsets.all(16),
+              decoration: const BoxDecoration(
+                border: Border(
+                    top: BorderSide(
+                  color: AppColors.colorGridLine,
+                  width: 2.0,
+                )),
+                color: AppColors.colorWhite,
+              ),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    InkWell(
+                        onTap: () async {
+                          widget.orderDetails.totalOrderAmount =
+                              getTotalOrderAmount();
+                          widget.orderDetails.createdAt =
+                              DateTime.now().millisecondsSinceEpoch;
+                          widget.orderDetails.updatedAt =
+                              DateTime.now().millisecondsSinceEpoch;
+                          widget.orderDetails.orderStatus = "active";
+                          log("orderDetails ${widget.orderDetails}");
+                          setState(() {});
+                          createOrder();
+                        },
+                        child: Container(
+                            alignment: Alignment.center,
+                            width: MediaQuery.sizeOf(context).width,
+                            constraints: const BoxConstraints(minHeight: 48),
+                            decoration: const BoxDecoration(
+                                color: AppColors.colorDark,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(24))),
+                            child: const Text(
+                              AppStringConstants.confirmOrder,
+                              style: AppStyles.buttonTvStyle,
+                            ))),
+                  ]),
             ),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  InkWell(
-                      onTap: () async {
-                        widget.orderDetails.totalOrderAmount =
-                            getTotalOrderAmount();
-                        widget.orderDetails.createdAt =
-                            DateTime.now().millisecondsSinceEpoch;
-                        widget.orderDetails.updatedAt =
-                            DateTime.now().millisecondsSinceEpoch;
-                        widget.orderDetails.orderStatus = "Active";
-                        setState(() {});
-                        log("widget.orderDetails ${widget.orderDetails.itemList.toString()}");
-                        createOrder();
-                      },
-                      child: Container(
-                          alignment: Alignment.center,
-                          width: MediaQuery.sizeOf(context).width,
-                          constraints: const BoxConstraints(minHeight: 48),
-                          decoration: const BoxDecoration(
-                              color: AppColors.colorDark,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(24))),
-                          child: const Text(
-                            AppStringConstants.confirmOrder,
-                            style: AppStyles.buttonTvStyle,
-                          ))),
-                ]),
-          ),
         ],
       ),
     );

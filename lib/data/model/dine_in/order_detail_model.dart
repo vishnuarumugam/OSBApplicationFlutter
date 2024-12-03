@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../../../app/app.dart';
 
 class OrderDetail {
@@ -67,9 +69,9 @@ class OrderDetail {
     };
   }
 
-  factory OrderDetail.fromJson(Map<String, dynamic> json) {
+  factory OrderDetail.fromJson(Map<String, dynamic> json, String documentId) {
     return OrderDetail(
-      documentId: json['documentId'] as String?,
+      documentId: documentId as String?,
       waiterName: json['waiter_name'] as String?,
       orderStatus: json['order_status'] as String?,
       updatedAt: json['updated_at'] as int?,

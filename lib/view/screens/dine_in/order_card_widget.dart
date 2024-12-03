@@ -2,7 +2,7 @@ import '../../../../app/app.dart';
 
 class OrderCardWidget extends StatefulWidget {
   final OrderDetail order;
-  final void Function(dynamic)? onItemClick;
+  final void Function(OrderDetail)? onItemClick;
 
   OrderCardWidget({
     super.key,
@@ -23,12 +23,17 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-          color: AppColors.colorLight,
+          color: AppColors.colorWhite,
           borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            width: 1.5,
+            color: AppColors.colorLightest,
+          ),
           boxShadow: [
             BoxShadow(
-              color: AppColors.colorGreyOut.withOpacity(0.1),
+              color: AppColors.colorGreyOut.withOpacity(0.05),
               blurRadius: 1,
               spreadRadius: 1.0,
               offset: const Offset(0, 4),
@@ -52,13 +57,33 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.order.tableName ?? AppStringConstants.dashed,
+                      "Table: ${widget.order.tableName ?? AppStringConstants.dashed}",
                       style: AppStyles.bodyHeaderBlack14,
                       textAlign: TextAlign.left,
                     ),
                     fieldSpacer(8),
                     Text(
-                      (widget.order.occupancyCount ?? AppStringConstants.dashed)
+                      "Occupancy: ${widget.order.occupancyCount ?? AppStringConstants.dashed}"
+                          .toString(),
+                      style: AppStyles.bodyRegularBlack12,
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      "${AppStringConstants.rupeeSymbol} ${widget.order.totalOrderAmount ?? AppStringConstants.dashed}",
+                      style: getOrderTxtColor(widget.order.orderStatus),
+                      textAlign: TextAlign.left,
+                    ),
+                    fieldSpacer(8),
+                    Text(
+                      "Items: ${widget.order.itemList?.length ?? AppStringConstants.dashed}"
                           .toString(),
                       style: AppStyles.bodyRegularBlack12,
                       textAlign: TextAlign.left,
@@ -73,24 +98,19 @@ class _OrderCardWidgetState extends State<OrderCardWidget> {
     );
   }
 
-  Padding priceTag() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              (widget.order.totalOrderAmount != null)
-                  ? "${AppStringConstants.rupeeSymbol} ${widget.order.totalOrderAmount.toString()}"
-                  : AppStringConstants.dashed,
-              style: AppStyles.bodyHeaderBlack14,
-              textAlign: TextAlign.right,
-            ),
-          ),
-        ],
-      ),
-    );
+  TextStyle getOrderTxtColor(String? orderStatus) {
+    if (orderStatus == null) {
+      return AppStyles.activeOrder;
+    }
+    switch (orderStatus.toLowerCase()) {
+      case "active":
+        return AppStyles.activeOrder;
+      case "open":
+        return AppStyles.openOrder;
+      case "closed":
+        return AppStyles.closedOrder;
+      default:
+        return AppStyles.activeOrder;
+    }
   }
 }

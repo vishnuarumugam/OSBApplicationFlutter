@@ -2,12 +2,14 @@ import '../../../app/app.dart';
 
 class AppItemCounterWidget extends StatefulWidget {
   final void Function(dynamic) onItemChange;
+  bool disableButton;
   double? width;
   Color? backgroundColor;
   int counterValue;
 
   AppItemCounterWidget({
     required this.onItemChange,
+    this.disableButton = false,
     this.width,
     this.backgroundColor,
     this.counterValue = 0,
@@ -42,13 +44,17 @@ class _AppItemCounterWidgetState extends State<AppItemCounterWidget> {
         children: [
           InkWell(
             onTap: () {
-              counter = (counter > 0) ? counter - 1 : 0;
-              widget.onItemChange.call(counter);
-              setState(() {});
+              if (!widget.disableButton) {
+                counter = (counter > 0) ? counter - 1 : 0;
+                widget.onItemChange.call(counter);
+                setState(() {});
+              }
             },
-            child: const Icon(
+            child: Icon(
               Icons.remove,
-              color: AppColors.colorDark,
+              color: (!widget.disableButton)
+                  ? AppColors.colorDark
+                  : AppColors.colorProgressGrey,
             ),
           ),
           Padding(
@@ -60,13 +66,17 @@ class _AppItemCounterWidgetState extends State<AppItemCounterWidget> {
           ),
           InkWell(
             onTap: () {
-              counter += 1;
-              widget.onItemChange.call(counter);
-              setState(() {});
+              if (!widget.disableButton) {
+                counter += 1;
+                widget.onItemChange.call(counter);
+                setState(() {});
+              }
             },
-            child: const Icon(
+            child: Icon(
               Icons.add,
-              color: AppColors.colorDark,
+              color: (!widget.disableButton)
+                  ? AppColors.colorDark
+                  : AppColors.colorProgressGrey,
             ),
           ),
         ],

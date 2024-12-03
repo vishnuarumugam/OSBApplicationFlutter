@@ -34,7 +34,9 @@ class _MenuItemCardWidgetState extends State<MenuItemCardWidget> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: AppColors.colorLight,
+          color: (widget.menuItem.isItemAvailable == 1)
+              ? AppColors.colorLight
+              : AppColors.colorProgressGrey,
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
@@ -103,8 +105,10 @@ class _MenuItemCardWidgetState extends State<MenuItemCardWidget> {
           widget.cardType == ItemCardType.orderList
               ? InkWell(
                   onTap: () {
-                    addOrderItem();
-                    setState(() {});
+                    if ((widget.menuItem.isItemAvailable == 1)) {
+                      addOrderItem();
+                      setState(() {});
+                    }
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -116,12 +120,16 @@ class _MenuItemCardWidgetState extends State<MenuItemCardWidget> {
                       borderRadius: const BorderRadius.all(Radius.circular(5)),
                       border: Border.all(
                         width: 1,
-                        color: AppColors.colorDark,
+                        color: (widget.menuItem.isItemAvailable == 1)
+                            ? AppColors.colorDark
+                            : AppColors.colorProgressGrey,
                       ),
                     ),
                     child: Text(
                       AppStringConstants.addItem.toUpperCase(),
-                      style: AppStyles.bodySemiBoldColorDark14,
+                      style: (widget.menuItem.isItemAvailable == 1)
+                          ? AppStyles.bodySemiBoldColorDark14
+                          : AppStyles.bodyGreyOutColorDark14,
                     ),
                   ),
                 )
@@ -138,6 +146,7 @@ class _MenuItemCardWidgetState extends State<MenuItemCardWidget> {
           counterValue: widget.menuItem.itemQty ?? 0,
           width: MediaQuery.sizeOf(context).width * 0.25,
           backgroundColor: AppColors.colorWhite,
+          disableButton: widget.menuItem.isItemAvailable != 1,
           onItemChange: itemCountChange,
         ));
   }
